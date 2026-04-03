@@ -2,5 +2,5 @@
 
 A production-ready example of Spring Boot project using Onion architecture. 
 
-## Status
-The project need some initial love 🙂
+> [!WARNING]
+> Under active development 🚧
