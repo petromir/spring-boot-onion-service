@@ -8,8 +8,7 @@ A production-ready example of a Spring Boot service using Onion architecture.
 ## Domain
 `Homie` is a household management platform focusing on invoices, warranties, maintenance services, vehicles and more.
 It attempts to provide various `standard` business cases, so they could be copy-pasted easily into your projects.
-Why not another domain? Simple - I wanted to build something that is actually used by me, and not some hypothetical 
-use cases.
+Why this domain? Simple - I want to build something that I actually use, and not just hypothetical use cases.
 
 ### Architecture
 The application showcases a modular monolith with Onion architecture
@@ -34,15 +33,19 @@ The application showcases a modular monolith with Onion architecture
 #### Structure
 root/
 ├── modules/
-│   ├── users/           # Auth, users, households
-│   ├── assets/          # Appliances, categories, merchants
-│   ├── vehicles/        # Vehicles, fuel logs
-│   ├── warranties/      # Warranties, expiry tracking
-│   ├── invoices/        # Invoices, line items
-│   ├── services/        # Service records, schedules, providers
-│   ├── notifications/   # Notifications, delivery
-│   └── documents/       # S3 file upload/download
-└── application/         # The glue of all modules
+│   ├── users/
+│   │   ├── domain/    # Entities, repository interfaces, domain events
+│   │   ├── app/       # Use cases, port interfaces, DTOs
+│   │   └── infra/     # Repository impl, Kafka, S3 clients, REST controllers
+│   ├── assets/
+│   │   └── ...        # Same onion layers
+│   ├── vehicles/
+│   ├── warranties/
+│   ├── invoices/
+│   ├── services/
+│   ├── notifications/
+│   └── documents/
+└── application/       # Bootstrapping, configuration, security
 
 ### Core Entities
 
@@ -102,17 +105,30 @@ root/
 
 ### Domain Events (Kafka)
 
-| Event                                                                            | Trigger                |
-|----------------------------------------------------------------------------------|------------------------|
-| `WarrantyCreated`, `WarrantyExpiring`, `WarrantyExpired`                         | Warranty lifecycle     |
-| `InvoiceCreated`, `InvoiceUploaded`, `InvoiceProcessed`                          | Invoice lifecycle      |
-| `ServiceRecordCreated`, `ServiceScheduled`, `ServiceCompleted`, `ServiceOverdue` | Maintenance lifecycle  |
-| `NotificationCreated`, `NotificationSent`, `NotificationRead`                    | Notification lifecycle |
-| `FuelLogCreated`                                                                 | Gas refill recorded    |
-| `VehicleAdded`, `VehicleDecommissioned`                                          | Vehicle lifecycle      |
-| `ApplianceAdded`, `ApplianceDecommissioned`                                      | Asset lifecycle        |
-| `DocumentUploaded`, `DocumentLinked`                                             | File management        |
-| `HouseholdMemberAdded`, `HouseholdMemberRemoved`                                 | Membership changes     |
+| Event                      | Trigger                |
+|----------------------------|------------------------|
+| `WarrantyCreated`          | Warranty created       |
+| `WarrantyExpiring`         | 90 days before expiry  |
+| `WarrantyExpired`          | Warranty expiry date   |
+| `InvoiceCreated`           | Invoice recorded       |
+| `InvoiceUploaded`          | File attached          |
+| `InvoiceProcessed`         | Payment/approval       |
+| `ServiceRecordCreated`     | Maintenance completed  |
+| `ServiceScheduled`         | Recurring schedule hit |
+| `ServiceCompleted`         | Service work done      |
+| `ServiceOverdue`           | Past due date          |
+| `NotificationCreated`      | Notification generated |
+| `NotificationSent`         | Notification delivered |
+| `NotificationRead`         | User acknowledged      |
+| `FuelLogCreated`           | Gas refill recorded    |
+| `VehicleAdded`             | Vehicle registered     |
+| `VehicleDecommissioned`    | Vehicle removed        |
+| `ApplianceAdded`           | Appliance registered   |
+| `ApplianceDecommissioned`  | Appliance removed      |
+| `DocumentUploaded`         | File stored in S3      |
+| `DocumentLinked`           | File attached to entity|
+| `HouseholdMemberAdded`     | User joined household  |
+| `HouseholdMemberRemoved`   | User left household    |
 
 ### Caching Strategy (Redis)
 
@@ -161,7 +177,7 @@ root/
 | Messaging          | Spring Kafka                         |
 | File Storage       | AWS SDK S3                           |
 | Web Clients        | Spring RestClient                    |
-| Modular Boundaries | Spring Modulith                      |
+| Modular Boundaries | Spring Modulith (enforced via `ModuleTest` at test time) |
 
 ## Support my work
 
