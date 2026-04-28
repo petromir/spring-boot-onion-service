@@ -11,7 +11,7 @@ HomeOps is a household management platform focusing on invoices, warranties, mai
 ### Architecture
 The application showcases a modular monolith with Onion architecture
 
-![Onion Architecture](docs/onion-architecture.png)
+<img src="https://raw.githubusercontent.com/petromir/spring-boot-onion-service/refs/heads/master/docs/onion-architecture.png" alt="Onion Architecture" width="600" height="600">
 
 ## Design
 
