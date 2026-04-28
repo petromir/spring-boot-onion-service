@@ -1,12 +1,15 @@
-# Spring Boot project using Onion architecture
+# Spring Boot service using Onion architecture
 
-A production-ready example of a Spring Boot project using Onion architecture. 
+A production-ready example of a Spring Boot service using Onion architecture. 
 
 > [!WARNING]
-> Under active development 🚧
+> Under active development 🚧.
 
 ## Domain
-HomeOps is a household management platform focusing on invoices, warranties, maintenance services, and vehicle tracking. Built as a modular monolith using Onion architecture, it demonstrates production-ready Spring Boot patterns.
+`Homie` is a household management platform focusing on invoices, warranties, maintenance services, vehicles and more.
+It attempts to provide various `standard` business cases, so they could be copy-pasted easily into your projects.
+Why not another domain? Simple - I wanted to build something that is actually used by me, and not some hypothetical 
+use cases.
 
 ### Architecture
 The application showcases a modular monolith with Onion architecture
