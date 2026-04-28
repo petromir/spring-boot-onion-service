@@ -8,36 +8,49 @@ A production-ready example of a Spring Boot project using Onion architecture.
 ## Domain
 HomeOps is a household management platform focusing on invoices, warranties, maintenance services, and vehicle tracking. Built as a modular monolith using Onion architecture, it demonstrates production-ready Spring Boot patterns.
 
-## Design
-
 ### Architecture
-- **Style:** Modular Monolith with Onion Architecture
-- **Framework:** Spring Modulith for module boundaries
-- **Target Audience:** Junior to Senior Java developers
+The application showcases a modular monolith with Onion architecture
+
+![Onion Architecture](docs/onion-architecture.png)
+
+## Design
 
 ### Modules
 
-| Module                    | Responsibility                                            |
-|---------------------------|-----------------------------------------------------------|
-| `user-management`         | Authentication, user profiles, household membership       |
-| `asset-management`        | Appliances, categories, merchants                         |
-| `vehicle-management`      | Vehicles and fuel logs                                    |
-| `warranty-management`     | Warranty tracking and expiry alerts                       |
-| `invoice-management`      | Purchase and service invoices with line items             |
-| `service-management`      | Service records, maintenance schedules, service providers |
-| `notification-management` | Notification generation and delivery                      |
-| `document-management`     | File upload/download via S3                               |
+| Module        | Responsibility                                            |
+|---------------|-----------------------------------------------------------|
+| `users`       | Authentication, user profiles, household membership       |
+| `assets`      | Appliances, categories, merchants                         |
+| `vehicles`    | Vehicles and fuel logs                                    |
+| `warranties`  | Warranty tracking and expiry alerts                       |
+| `invoices`    | Purchase and service invoices with line items             |
+| `services`    | Service records, maintenance schedules, service providers |
+| `notifications` | Notification generation and delivery                    |
+| `documents`   | File upload/download via S3                               |
+
+#### Structure
+root/
+├── modules/
+│   ├── users/           # Auth, users, households
+│   ├── assets/          # Appliances, categories, merchants
+│   ├── vehicles/        # Vehicles, fuel logs
+│   ├── warranties/      # Warranties, expiry tracking
+│   ├── invoices/        # Invoices, line items
+│   ├── services/        # Service records, schedules, providers
+│   ├── notifications/   # Notifications, delivery
+│   └── documents/       # S3 file upload/download
+└── application/         # The glue of all modules
 
 ### Core Entities
 
-#### User Management
+#### Users
 
 | Entity      | Description                            |
 |-------------|----------------------------------------|
 | `User`      | Account, authentication, profile       |
 | `Household` | Family/unit grouping with member roles |
 
-#### Asset Management
+#### Assets
 
 | Entity      | Description                                                              |
 |-------------|--------------------------------------------------------------------------|
@@ -45,26 +58,26 @@ HomeOps is a household management platform focusing on invoices, warranties, mai
 | `Category`  | Classification (kitchen, HVAC, plumbing, electrical)                     |
 | `Merchant`  | Seller/retailer where appliances are purchased                           |
 
-#### Vehicle Management
+#### Vehicles
 
 | Entity    | Description                                                |
 |-----------|------------------------------------------------------------|
 | `Vehicle` | Type, year, make, model, plate, VIN, nickname              |
 | `FuelLog` | Gas refills: date, station, volume, cost, odometer reading |
 
-#### Warranty Management
+#### Warranties
 
 | Entity     | Description                                                           |
 |------------|-----------------------------------------------------------------------|
 | `Warranty` | Coverage linked to an appliance with start/end dates, terms, provider |
 
-#### Invoice Management
+#### Invoices
 
 | Entity    | Description                                                              |
 |-----------|--------------------------------------------------------------------------|
 | `Invoice` | Purchase or service invoice linked to appliance/merchant with line items |
 
-#### Service Management
+#### Services
 
 | Entity            | Description                                                           |
 |-------------------|-----------------------------------------------------------------------|
@@ -72,13 +85,13 @@ HomeOps is a household management platform focusing on invoices, warranties, mai
 | `ServiceSchedule` | Recurring maintenance plan with frequency and conditions              |
 | `ServiceProvider` | External company or contractor                                        |
 
-#### Notification Management
+#### Notifications
 
 | Entity         | Description                                                       |
 |----------------|-------------------------------------------------------------------|
 | `Notification` | Generated from ServiceSchedule triggers (due, overdue, completed) |
 
-#### Document Management
+#### Documents
 
 | Entity     | Description                                                        |
 |------------|--------------------------------------------------------------------|
