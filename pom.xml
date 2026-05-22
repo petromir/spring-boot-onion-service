@@ -15,6 +15,10 @@
     <name>spring-boot-nlayered-service</name>
     <description>An example of Spring Boot service using Onion architecture</description>
 
+    <modules>
+        <module>application</module>
+    </modules>
+
     <properties>
         <java.version>21</java.version>
     </properties>
