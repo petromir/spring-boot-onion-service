@@ -13,6 +13,7 @@
     <artifactId>spring-boot-onion-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-nlayered-service</name>
+    <packaging>pom</packaging>
     <description>An example of Spring Boot service using Onion architecture</description>
 
     <modules>
