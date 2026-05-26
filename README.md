@@ -34,9 +34,10 @@ The application showcases a modular monolith with Onion architecture
 root/
 ├── modules/
 │   ├── users/
-│   │   ├── domain/    # Entities, repository interfaces, domain events
-│   │   ├── app/       # Use cases, port interfaces, DTOs
-│   │   └── infra/     # Repository impl, Kafka, S3 clients, REST controllers
+│   │   └── src/main/java/
+│   │       ├── domain/    # Entities, repository interfaces, domain events
+│   │       ├── app/       # Use cases, port interfaces, DTOs
+│   │       └── infra/     # Repository impl, Kafka, S3 clients, REST controllers
 │   ├── assets/
 │   │   └── ...        # Same onion layers
 │   ├── vehicles/
