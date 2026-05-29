@@ -126,12 +126,14 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpecRootDirectory>${project.basedir}/api/features</inputSpecRootDirectory>
+                                    <!-- For example, users-api.yaml -->
+                                    <inputSpec>${project.basedir}/${project.artifactId}-api.yaml</inputSpec>
                                     <generatorName>spring</generatorName>
                                     <library>spring-boot</library>
                                     <output>${project.basedir}</output>
-                                    <apiPackage>com.petromirdzhunev.controller</apiPackage>
-                                    <modelPackage>com.petromirdzhunev.controller.model</modelPackage>
+                                    <apiPackage>${project.groupId}.${project.artifactId}.infra.http.server
+                                        .controller</apiPackage>
+                                    <modelPackage>${project.groupId}.${project.artifactId}.infra.http.server.controller.model</modelPackage>
                                     <typeMappings>
                                         <typeMapping>string+date-time=LocalDateTime</typeMapping>
                                     </typeMappings>

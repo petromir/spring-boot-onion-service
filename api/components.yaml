@@ -1,0 +1,23 @@
+components:
+  schemas:
+    ProblemDetailResponsePayload:
+      type: object
+      required:
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          example: "about:blank"
+        title:
+          type: string
+          example: "Not Found"
+        status:
+          type: integer
+          example: 404
+        instance:
+          type: string
+          example: "/users/1"
+        detail:
+          type: string
+          example: "The requested user was not found."
