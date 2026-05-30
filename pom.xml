@@ -131,8 +131,7 @@
                                     <generatorName>spring</generatorName>
                                     <library>spring-boot</library>
                                     <output>${project.basedir}</output>
-                                    <apiPackage>${project.groupId}.${project.artifactId}.infra.http.server
-                                        .controller</apiPackage>
+                                    <apiPackage>${project.groupId}.${project.artifactId}.infra.http.server.controller</apiPackage>
                                     <modelPackage>${project.groupId}.${project.artifactId}.infra.http.server.controller.model</modelPackage>
                                     <typeMappings>
                                         <typeMapping>string+date-time=LocalDateTime</typeMapping>
