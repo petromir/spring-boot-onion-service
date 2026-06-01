@@ -24,7 +24,7 @@ public class AuthenticationService {
 	private final JwtProperties jwtProperties;
 
 	public AuthenticationService(final JwtProperties jwtProperties) {
-		this.secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
+		this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secret().getBytes(StandardCharsets.UTF_8));
 		this.jwtProperties = jwtProperties;
 	}
 
@@ -36,7 +36,8 @@ public class AuthenticationService {
         return Jwts.builder()
                    .subject(Long.toString(authUser.getId()))
                    .issuedAt(Date.from(now))
-                   .expiration(Date.from(now.plus(this.jwtProperties.getTokenValidity(), ChronoUnit.SECONDS))) // Token valid for 2 hours
+                   .expiration(Date.from(now.plus(this.jwtProperties.tokenValidity(), ChronoUnit.SECONDS))) // Token
+                   // valid for 2 hours
                    .signWith(this.secretKey)
                    .compact();
     }
