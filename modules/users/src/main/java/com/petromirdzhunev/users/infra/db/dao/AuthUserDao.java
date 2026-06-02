@@ -28,8 +28,7 @@ public class AuthUserDao implements AuthUserRepository {
 
 	@Override
 	public AuthUser insertAuthUser(final AuthUser authUser) {
-		// FIXME: We need to support multiple roles as a person could be Designer and Approval of a flow
-		//  This will be handled as part of the Approval process implementation.
+		// NOTE: Support multiple roles
 		final String authUserRoleCode = authUser.getRoles().getFirst().code();
 		final long authUserRoleId = db.select(AUTH_USER_ROLE_DB_TABLE.ID)
 		                              .from(AUTH_USER_ROLE_DB_TABLE)

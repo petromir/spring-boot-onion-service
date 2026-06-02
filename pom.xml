@@ -45,63 +45,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-        </dependency>
-        <!-- Needed for JSON Processing -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-docker-compose</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.petromirdzhunev</groupId>
-            <artifactId>andromeda-spring-boot-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -164,7 +107,15 @@
                                     <importMappings>
                                         <importMapping>LocalDateTime=java.time.LocalDateTime</importMapping>
                                     </importMappings>
+                                    <schemaMappings>
+                                        <!-- Prevent generating ProblemDetailResponsePayload class as ProblemDetail will be used -->
+                                        <!-- Note that this still requires you to define the ProblemDetailResponsePayload in OpenAPI YAML file -->
+                                        <schemaMapping>ProblemDetailResponsePayload=org.springframework.http.ProblemDetail</schemaMapping>
+                                    </schemaMappings>
                                     <configOptions>
+                                        <!-- Replaces all $ref references with the actual schema content before generation. -->
+                                        <!-- Safe with local $refs as schema names from components/schemas are preserved. -->
+                                        <!-- External $refs are always replaced regardless of this option, which can cause unpredictable model names. -->
                                         <resolveFully>true</resolveFully>
                                         <interfaceOnly>true</interfaceOnly>
                                         <useSpringBoot3>true</useSpringBoot3>
@@ -173,6 +124,8 @@
                                         <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                         <openApiNullable>false</openApiNullable>
                                         <skipDefaultInterface>true</skipDefaultInterface>
+                                        <!-- Objects are returned directly instead of being wrapped in ResponseEntity
+                                         -->
                                         <useResponseEntity>false</useResponseEntity>
                                         <useTags>true</useTags>
 

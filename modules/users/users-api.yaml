@@ -32,13 +32,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
 
   /api/users:
     post:
@@ -64,13 +64,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
 
   /api/users/{id}:
     parameters:
@@ -97,19 +97,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
         '404':
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
 
   /api/users/self:
     get:
@@ -132,13 +132,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '../../api/components.yaml#/components/schemas/ProblemDetailResponsePayload'
+                $ref: '#/components/schemas/ProblemDetailResponsePayload'
 
 components:
   securitySchemes:
@@ -218,3 +218,25 @@ components:
         id:
           type: integer
           format: int64
+
+    ProblemDetailResponsePayload:
+      type: object
+      required:
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          example: "about:blank"
+        title:
+          type: string
+          example: "Not Found"
+        status:
+          type: integer
+          example: 404
+        instance:
+          type: string
+          example: "/users/1"
+        detail:
+          type: string
+          example: "The requested user was not found."

@@ -5,23 +5,22 @@
  */
 package com.petromirdzhunev.users.infra.http.server.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.petromirdzhunev.users.infra.http.server.controller.model.LoginRequestPayload;
 import com.petromirdzhunev.users.infra.http.server.controller.model.LoginResponsePayload;
-import com.petromirdzhunev.users.infra.http.server.controller.model.ProblemDetailResponsePayload;
 import com.petromirdzhunev.users.infra.http.server.controller.model.UserCreationRequestPayload;
 import com.petromirdzhunev.users.infra.http.server.controller.model.UserCreationResponsePayload;
 import com.petromirdzhunev.users.infra.http.server.controller.model.UserResponsePayload;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0")
 @Validated
