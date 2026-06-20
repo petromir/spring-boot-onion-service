@@ -168,16 +168,16 @@ root/
 
 ### Technology Stack
 
-| Feature            | Technology                           |
-|--------------------|--------------------------------------|
-| REST API           | Spring Web + OpenAPI code generation |
-| Authentication     | Spring Security + JWT                |
-| Database           | PostgreSQL + jOOQ + Liquibase        |
-| JSONB              | jOOQ JSONB support                   |
-| Caching            | Spring Cache + Redis                 |
-| Messaging          | Spring Kafka                         |
-| File Storage       | AWS SDK S3                           |
-| Web Clients        | Spring RestClient                    |
+| Feature            | Technology                                               |
+|--------------------|----------------------------------------------------------|
+| REST API           | Spring Web + OpenAPI code generation                     |
+| Authentication     | Spring Security + JWT                                    |
+| Database           | PostgreSQL + jOOQ + Liquibase                            |
+| JSONB              | jOOQ JSONB support                                       |
+| Caching            | Spring Cache + Redis                                     |
+| Messaging          | Spring Kafka                                             |
+| File Storage       | AWS SDK S3                                               |
+| Web Clients        | Spring RestClient                                        |
 | Modular Boundaries | Spring Modulith (enforced via `ModuleTest` at test time) |
 
 ## Support my work

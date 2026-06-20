@@ -18,14 +18,14 @@
 
     <modules>
         <module>application</module>
-        <module>modules/assets</module>
-        <module>modules/documents</module>
-        <module>modules/invoices</module>
-        <module>modules/notifications</module>
-        <module>modules/services</module>
         <module>modules/users</module>
         <module>modules/vehicles</module>
-        <module>modules/warranties</module>
+<!--        <module>modules/assets</module>-->
+<!--        <module>modules/documents</module>-->
+<!--        <module>modules/invoices</module>-->
+<!--        <module>modules/notifications</module>-->
+<!--        <module>modules/services</module>-->
+<!--        <module>modules/warranties</module>-->
     </modules>
 
     <properties>
