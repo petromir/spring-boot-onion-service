@@ -153,6 +153,12 @@
                         <artifactId>testcontainers-jooq-codegen-maven-plugin</artifactId>
                         <version>0.0.4</version>
                         <dependencies>
+                            <!-- The plugin uses quite old versions -->
+                            <dependency>
+                                <groupId>org.testcontainers</groupId>
+                                <artifactId>testcontainers</artifactId>
+                                <version>2.0.5</version>
+                            </dependency>
                             <dependency>
                                 <groupId>org.testcontainers</groupId>
                                 <artifactId>testcontainers-postgresql</artifactId>
@@ -162,6 +168,11 @@
                                 <groupId>org.postgresql</groupId>
                                 <artifactId>postgresql</artifactId>
                                 <version>42.7.11</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.jooq</groupId>
+                                <artifactId>jooq-codegen</artifactId>
+                                <version>3.19.18</version>
                             </dependency>
                         </dependencies>
                         <executions>
