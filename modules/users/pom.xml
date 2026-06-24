@@ -13,6 +13,11 @@
     <name>users</name>
     <description>Users module</description>
 
+    <properties>
+        <openapi-generator.skip>false</openapi-generator.skip>
+        <jooq-codegen.skip>false</jooq-codegen.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

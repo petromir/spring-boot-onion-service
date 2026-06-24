@@ -19,16 +19,16 @@ The application showcases a modular monolith with Onion architecture
 
 ### Modules
 
-| Module        | Responsibility                                            |
-|---------------|-----------------------------------------------------------|
-| `users`       | Authentication, user profiles, household membership       |
-| `assets`      | Appliances, categories, merchants                         |
-| `vehicles`    | Vehicles and fuel logs                                    |
-| `warranties`  | Warranty tracking and expiry alerts                       |
-| `invoices`    | Purchase and service invoices with line items             |
-| `services`    | Service records, maintenance schedules, service providers |
-| `notifications` | Notification generation and delivery                    |
-| `documents`   | File upload/download via S3                               |
+| Module          | Responsibility                                            |
+|-----------------|-----------------------------------------------------------|
+| `users`         | Authentication, user profiles, household membership       |
+| `assets`        | Appliances, categories, merchants                         |
+| `vehicles`      | Vehicles, fuel logs and cost analysis                     |
+| `warranties`    | Warranty tracking and expiry alerts                       |
+| `invoices`      | Purchase and service invoices with line items             |
+| `services`      | Service records, maintenance schedules, service providers |
+| `notifications` | Notification generation and delivery                      |
+| `documents`     | File upload/download via S3                               |
 
 #### Structure
 root/

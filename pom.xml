@@ -30,6 +30,10 @@
 
     <properties>
         <java.version>25</java.version>
+        <!-- In this way we disable the code generation for this parent pom -->
+        <!-- Every module which needs code generation must set these flags to false -->
+        <openapi-generator.skip>true</openapi-generator.skip>
+        <jooq-codegen.skip>true</jooq-codegen.skip>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +86,7 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
+                                    <skip>${openapi-generator.skip}</skip>
                                     <!-- For example, users-api.yaml -->
                                     <inputSpec>${project.basedir}/${project.artifactId}-api.yaml</inputSpec>
                                     <generatorName>spring</generatorName>
@@ -183,6 +188,7 @@
                                 </goals>
                                 <phase>generate-sources</phase>
                                 <configuration>
+                                    <skip>${jooq-codegen.skip}</skip>
                                     <database>
                                         <type>POSTGRES</type>
                                         <containerImage>postgres:17-alpine</containerImage>
@@ -224,7 +230,7 @@
                                                 <excludes>databasechangelog|databasechangeloglock</excludes>
                                             </database>
                                             <target>
-                                                <packageName>com.inteldecisions.infra.db.jooq</packageName>
+                                                <packageName>com.petromirdzhunev.${project.artifactId}.infra.db.jooq</packageName>
                                                 <directory>src/main/java</directory>
                                             </target>
                                             <generate>
