@@ -106,30 +106,30 @@ root/
 
 ### Domain Events (Kafka)
 
-| Event                      | Trigger                |
-|----------------------------|------------------------|
-| `WarrantyCreated`          | Warranty created       |
-| `WarrantyExpiring`         | 90 days before expiry  |
-| `WarrantyExpired`          | Warranty expiry date   |
-| `InvoiceCreated`           | Invoice recorded       |
-| `InvoiceUploaded`          | File attached          |
-| `InvoiceProcessed`         | Payment/approval       |
-| `ServiceRecordCreated`     | Maintenance completed  |
-| `ServiceScheduled`         | Recurring schedule hit |
-| `ServiceCompleted`         | Service work done      |
-| `ServiceOverdue`           | Past due date          |
-| `NotificationCreated`      | Notification generated |
-| `NotificationSent`         | Notification delivered |
-| `NotificationRead`         | User acknowledged      |
-| `FuelLogCreated`           | Gas refill recorded    |
-| `VehicleAdded`             | Vehicle registered     |
-| `VehicleDecommissioned`    | Vehicle removed        |
-| `ApplianceAdded`           | Appliance registered   |
-| `ApplianceDecommissioned`  | Appliance removed      |
-| `DocumentUploaded`         | File stored in S3      |
-| `DocumentLinked`           | File attached to entity|
-| `HouseholdMemberAdded`     | User joined household  |
-| `HouseholdMemberRemoved`   | User left household    |
+| Event                     | Trigger                 |
+|---------------------------|-------------------------|
+| `WarrantyCreated`         | Warranty created        |
+| `WarrantyExpiring`        | 90 days before expiry   |
+| `WarrantyExpired`         | Warranty expiry date    |
+| `InvoiceCreated`          | Invoice recorded        |
+| `InvoiceUploaded`         | File attached           |
+| `InvoiceProcessed`        | Payment/approval        |
+| `ServiceRecordCreated`    | Maintenance completed   |
+| `ServiceScheduled`        | Recurring schedule hit  |
+| `ServiceCompleted`        | Service work done       |
+| `ServiceOverdue`          | Past due date           |
+| `NotificationCreated`     | Notification generated  |
+| `NotificationSent`        | Notification delivered  |
+| `NotificationRead`        | User acknowledged       |
+| `FuelLogCreated`          | Gas refill recorded     |
+| `VehicleAdded`            | Vehicle registered      |
+| `VehicleDecommissioned`   | Vehicle removed         |
+| `ApplianceAdded`          | Appliance registered    |
+| `ApplianceDecommissioned` | Appliance removed       |
+| `DocumentUploaded`        | File stored in S3       |
+| `DocumentLinked`          | File attached to entity |
+| `HouseholdMemberAdded`    | User joined household   |
+| `HouseholdMemberRemoved`  | User left household     |
 
 ### Caching Strategy (Redis)
 

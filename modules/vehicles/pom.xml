@@ -13,4 +13,9 @@
     <name>vehicles</name>
     <description>Vehicles module</description>
 
+    <properties>
+        <openapi-generator.skip>false</openapi-generator.skip>
+        <jooq-codegen.skip>false</jooq-codegen.skip>
+    </properties>
+
 </project>
