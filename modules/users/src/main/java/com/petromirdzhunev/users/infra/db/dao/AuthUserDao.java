@@ -2,14 +2,19 @@ package com.petromirdzhunev.users.infra.db.dao;
 
 import static com.petromirdzhunev.users.infra.db.jooq.Tables.AUTH_USER_DB_TABLE;
 import static com.petromirdzhunev.users.infra.db.jooq.Tables.AUTH_USER_ROLE_DB_TABLE;
+import static com.petromirdzhunev.users.infra.db.jooq.Tables.AUTH_USER_ROLES_DB_TABLE;
 import static org.jooq.Records.mapping;
 import static org.jooq.impl.DSL.multiset;
 import static org.jooq.impl.DSL.select;
 
+import java.util.List;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.InsertValuesStep2;
+import org.jooq.Record;
 import org.springframework.stereotype.Component;
 
 import com.petromirdzhunev.users.domain.AuthUser;
@@ -26,59 +31,67 @@ public class AuthUserDao implements AuthUserRepository {
 
 	private final DSLContext db;
 
-	@Override
 	public AuthUser insertAuthUser(final AuthUser authUser) {
-		// NOTE: Support multiple roles
-		final String authUserRoleCode = authUser.getRoles().getFirst().code();
-		final long authUserRoleId = db.select(AUTH_USER_ROLE_DB_TABLE.ID)
-		                              .from(AUTH_USER_ROLE_DB_TABLE)
-		                              .where(AUTH_USER_ROLE_DB_TABLE.CODE.eq(authUserRoleCode))
-		                              .fetchOptional(AUTH_USER_ROLE_DB_TABLE.ID)
-		                              .orElseThrow(() -> new EntityNotFoundException(
-				                                    "No existing auth user role found for [code=%s]".formatted(
-						                                    authUserRoleCode)));
+		final List<String> roleCodes = authUser.getRoles()
+		                                       .stream()
+		                                       .map(AuthUserRole::code)
+		                                       .toList();
 
-		return db.insertInto(AUTH_USER_DB_TABLE)
-		         .set(AUTH_USER_DB_TABLE.EMAIL, authUser.getEmail())
-		         .set(AUTH_USER_DB_TABLE.PASSWORD, authUser.getPassword())
-		         .set(AUTH_USER_DB_TABLE.FIRST_NAME, authUser.getFirstName())
-		         .set(AUTH_USER_DB_TABLE.LAST_NAME, authUser.getLastName())
-		         .set(AUTH_USER_DB_TABLE.ROLE_ID, authUserRoleId)
-		         .returning(AUTH_USER_DB_TABLE.ID)
-		         .fetchOne(record -> AuthUser.builder()
-		                                     .id(record.getValue(AUTH_USER_DB_TABLE.ID))
-		                                     .build());
+		final List<Long> roleIds = db.select(AUTH_USER_ROLE_DB_TABLE.ID)
+		                             .from(AUTH_USER_ROLE_DB_TABLE)
+		                             .where(AUTH_USER_ROLE_DB_TABLE.CODE.in(roleCodes))
+		                             .fetch(AUTH_USER_ROLE_DB_TABLE.ID);
+
+		if (roleIds.isEmpty()) {
+			throw new EntityNotFoundException(
+					"No auth user roles found [codes=%s]".formatted(StringUtils.join(roleCodes, ",")));
+		}
+
+		final Long authUserId = db.insertInto(AUTH_USER_DB_TABLE)
+		                          .set(AUTH_USER_DB_TABLE.EMAIL, authUser.getEmail())
+		                          .set(AUTH_USER_DB_TABLE.PASSWORD, authUser.getPassword())
+		                          .set(AUTH_USER_DB_TABLE.FIRST_NAME, authUser.getFirstName())
+		                          .set(AUTH_USER_DB_TABLE.LAST_NAME, authUser.getLastName())
+		                          .returning(AUTH_USER_DB_TABLE.ID)
+		                          .fetchOptional(AUTH_USER_DB_TABLE.ID)
+		                          .orElseThrow(() -> new EntityNotFoundException(
+				                          "Auth user not inserted [email=%s]".formatted(authUser.getEmail())));
+
+		InsertValuesStep2<Record, Long, Long> insertStep = db.insertInto(
+				AUTH_USER_ROLES_DB_TABLE, AUTH_USER_ROLES_DB_TABLE.USER_ID, AUTH_USER_ROLES_DB_TABLE.ROLE_ID);
+		for (final Long roleId : roleIds) {
+			insertStep = insertStep.values(authUserId, roleId);
+		}
+		insertStep.execute();
+
+		return authUser.withoutPassword();
 	}
 
-	@Override
 	public AuthUser authUser(final String authUserEmail) {
 		return this.authUser(AUTH_USER_DB_TABLE.EMAIL.eq(authUserEmail),
 				() -> new EntityNotFoundException("No existing auth user found for [email=%s]"
 						.formatted(authUserEmail)));
 	}
 
-	@Override
-	public AuthUser authUser(final Long userId) {
-		return this.authUser(AUTH_USER_DB_TABLE.ID.eq(userId),
-				() -> new EntityNotFoundException("No existing auth user found for [id=%d]".formatted(userId)));
+	public AuthUser authUser(final Long authUserId) {
+		return this.authUser(AUTH_USER_DB_TABLE.ID.eq(authUserId),
+				() -> new EntityNotFoundException("No existing auth user found for [id=%d]".formatted(authUserId)));
 	}
 
-	@Override
 	public void deleteAuthUser(final Long authUserId) {
 		db.deleteFrom(AUTH_USER_DB_TABLE)
 		  .where(AUTH_USER_DB_TABLE.ID.eq(authUserId))
 		  .execute();
 	}
 
-	@Override
-	public void assertAuthUserNotExists(final String email) {
-		boolean flowExists =
+	public void assertAuthUserNotExists(final String authUserEmail) {
+		boolean userExists =
 				db.fetchExists(
 						db.selectOne()
 						  .from(AUTH_USER_DB_TABLE)
-						  .where(AUTH_USER_DB_TABLE.EMAIL.eq(email)));
+						  .where(AUTH_USER_DB_TABLE.EMAIL.eq(authUserEmail)));
 
-		if (flowExists) {
+		if (userExists) {
 			throw new EntityAlreadyExistsException("Username already exists for [name=%s]");
 		}
 	}
@@ -92,9 +105,10 @@ public class AuthUserDao implements AuthUserRepository {
 				         multiset(
 						         select(
 								         AUTH_USER_ROLE_DB_TABLE.ID, AUTH_USER_ROLE_DB_TABLE.CODE, AUTH_USER_ROLE_DB_TABLE.NAME
-						         ).from(AUTH_USER_ROLE_DB_TABLE)
-						          .where(AUTH_USER_ROLE_DB_TABLE.ID.eq(AUTH_USER_DB_TABLE.ROLE_ID))
-				         ).as("stepGroups")
+						         ).from(AUTH_USER_ROLES_DB_TABLE)
+						          .join(AUTH_USER_ROLE_DB_TABLE).on(AUTH_USER_ROLE_DB_TABLE.ID.eq(AUTH_USER_ROLES_DB_TABLE.ROLE_ID))
+						          .and(AUTH_USER_ROLES_DB_TABLE.USER_ID.eq(AUTH_USER_DB_TABLE.ID))
+				         ).as("roles")
 				          .convertFrom(r -> r.map(record ->
 								          new AuthUserRole(
 										          record.getValue(AUTH_USER_ROLE_DB_TABLE.ID),
