@@ -18,8 +18,8 @@
 
     <modules>
         <module>application</module>
-        <module>modules/users</module>
-        <module>modules/vehicles</module>
+        <module>modules/user</module>
+        <module>modules/vehicle</module>
 <!--        <module>modules/assets</module>-->
 <!--        <module>modules/documents</module>-->
 <!--        <module>modules/invoices</module>-->
