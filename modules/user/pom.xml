@@ -74,6 +74,10 @@
             <artifactId>jjwt-jackson</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.petromirdzhunev.libs</groupId>
+            <artifactId>domain-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.petromirdzhunev</groupId>
             <artifactId>andromeda-spring-boot-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>

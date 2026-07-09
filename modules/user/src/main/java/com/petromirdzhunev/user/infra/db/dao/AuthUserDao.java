@@ -1,8 +1,8 @@
 package com.petromirdzhunev.user.infra.db.dao;
 
 import static com.petromirdzhunev.user.infra.db.jooq.Tables.AUTH_USER_DB_TABLE;
-import static com.petromirdzhunev.user.infra.db.jooq.Tables.AUTH_USER_ROLE_DB_TABLE;
 import static com.petromirdzhunev.user.infra.db.jooq.Tables.AUTH_USER_ROLES_DB_TABLE;
+import static com.petromirdzhunev.user.infra.db.jooq.Tables.AUTH_USER_ROLE_DB_TABLE;
 import static org.jooq.Records.mapping;
 import static org.jooq.impl.DSL.multiset;
 import static org.jooq.impl.DSL.select;
@@ -17,10 +17,10 @@ import org.jooq.InsertValuesStep2;
 import org.jooq.Record;
 import org.springframework.stereotype.Component;
 
+import com.petromirdzhunev.domain.core.exception.EntityAlreadyExistsException;
+import com.petromirdzhunev.domain.core.exception.EntityNotFoundException;
 import com.petromirdzhunev.user.domain.AuthUser;
 import com.petromirdzhunev.user.domain.AuthUserRole;
-import com.petromirdzhunev.user.domain.exception.EntityAlreadyExistsException;
-import com.petromirdzhunev.user.domain.exception.EntityNotFoundException;
 import com.petromirdzhunev.user.domain.repository.AuthUserRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -68,6 +68,10 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.petromirdzhunev.libs</groupId>
+            <artifactId>domain-core</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
