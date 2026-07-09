@@ -16,21 +16,22 @@ public class VehicleService {
 	private final VehicleRepository vehicleRepository;
 
 	public VehicleEntity createVehicle(final VehicleEntity vehicle) {
-		return null;
+		return vehicleRepository.insertVehicle(vehicle);
 	}
 
 	public void deleteVehicle(final Long id) {
+		vehicleRepository.deleteVehicle(id);
 	}
 
 	public VehicleEntity vehicle(final Long id) {
-		return null;
+		return vehicleRepository.vehicle(id);
 	}
 
 	public List<VehicleEntity> listVehicles() {
-		return List.of();
+		return vehicleRepository.vehicles();
 	}
 
 	public VehicleEntity updateVehicle(final Long id, final VehicleEntity vehicle) {
-		return null;
+		return vehicleRepository.updateVehicle(id, vehicle);
 	}
 }

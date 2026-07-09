@@ -1,13 +1,19 @@
 package com.petromirdzhunev.vehicle.infra.http.server.controller.model;
 
+import java.net.URI;
 import java.util.Objects;
-
-import org.springframework.lang.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.petromirdzhunev.vehicle.infra.http.server.controller.model.VehicleType;
+import org.springframework.lang.Nullable;
+import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * VehicleResponsePayload

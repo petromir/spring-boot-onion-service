@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: "auth_user_definition.sql"
+      file: "vehicle_definition.sql"
       relativeToChangelogFile: true
