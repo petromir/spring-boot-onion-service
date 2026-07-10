@@ -30,8 +30,8 @@
 
     <properties>
         <java.version>25</java.version>
-        <!-- In this way we disable the code generation for this parent pom -->
-        <!-- Every module which needs code generation must set these flags to false -->
+        <!-- Code generation defaults. The parent pom is of packaging type 'pom', so these plugins
+             are not bound here. Modules inherit these defaults and may override via -D on the cmdline. -->
         <openapi-generator.skip>false</openapi-generator.skip>
         <jooq-codegen.skip>false</jooq-codegen.skip>
     </properties>
@@ -76,69 +76,13 @@
     </build>
 
     <profiles>
+        <!-- Stub: parent carries no plugins. Each module (user, vehicle, ...) declares its own
+             generate-code profile with the plugins it needs (openapi-generator-maven-plugin,
+             testcontainers-jooq-codegen-maven-plugin, env-file-maven-plugin). Activate with
+             -P generate-code; Maven activates the homonymous profile in every reactor project
+             by id. See Makefile `generate-code` target. -->
         <profile>
             <id>generate-code</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openapitools</groupId>
-                        <artifactId>openapi-generator-maven-plugin</artifactId>
-                        <version>7.23.0</version>
-                        <executions>
-                            <execution>
-                                <id>generate-api</id>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${openapi-generator.skip}</skip>
-                                    <!-- For example, users-api.yaml -->
-                                    <inputSpec>${project.basedir}/${project.artifactId}-api.yaml</inputSpec>
-                                    <generatorName>spring</generatorName>
-                                    <library>spring-boot</library>
-                                    <output>${project.basedir}</output>
-                                    <apiPackage>${project.groupId}.${project.artifactId}.infra.http.server.controller</apiPackage>
-                                    <modelPackage>${project.groupId}.${project.artifactId}.infra.http.server.controller.model</modelPackage>
-                                    <typeMappings>
-                                        <typeMapping>string+date-time=LocalDateTime</typeMapping>
-                                    </typeMappings>
-                                    <importMappings>
-                                        <importMapping>LocalDateTime=java.time.LocalDateTime</importMapping>
-                                    </importMappings>
-                                    <schemaMappings>
-                                        <!-- Prevent generating ProblemDetailResponsePayload class as ProblemDetail will be used -->
-                                        <!-- Note that this still requires you to define the ProblemDetailResponsePayload in OpenAPI YAML file -->
-                                        <schemaMapping>ProblemDetailResponsePayload=org.springframework.http.ProblemDetail</schemaMapping>
-                                    </schemaMappings>
-                                    <configOptions>
-                                        <!-- Replaces all $ref references with the actual schema content before generation. -->
-                                        <!-- Safe with local $refs as schema names from components/schemas are preserved. -->
-                                        <!-- External $refs are always replaced regardless of this option, which can cause unpredictable model names. -->
-                                        <resolveFully>true</resolveFully>
-                                        <interfaceOnly>true</interfaceOnly>
-                                        <useSpringBoot3>true</useSpringBoot3>
-                                        <documentationProvider>none</documentationProvider>
-                                        <annotationLibrary>none</annotationLibrary>
-                                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                        <openApiNullable>false</openApiNullable>
-                                        <skipDefaultInterface>true</skipDefaultInterface>
-                                        <!-- Objects are returned directly instead of being wrapped in ResponseEntity
-                                         -->
-                                        <useResponseEntity>false</useResponseEntity>
-                                        <useTags>true</useTags>
-
-                                    </configOptions>
-                                    <generateSupportingFiles>false</generateSupportingFiles>
-                                    <generateApiTests>false</generateApiTests>
-                                    <generateModelTests>false</generateModelTests>
-                                    <generateApiDocumentation>false</generateApiDocumentation>
-                                    <generateModelDocumentation>false</generateModelDocumentation>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 
